@@ -18,6 +18,10 @@ const Votes = (props) => (
   </p>
 )
 
+const WinningAnecdote = (props) => (
+  <Anecdote text={props.text}></Anecdote>
+)
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -28,7 +32,7 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when dianosing patients.'
   ]
-  
+
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState([0,0,0,0,0,0,0])
 
@@ -43,6 +47,13 @@ const App = () => {
     setVotes(newVotes)
   }
 
+  const getWinningAnecdote = () => {
+    const max = Math.max(...votes)
+    const index = votes.indexOf(max)
+    console.log(index)
+    return index
+  }
+
   console.log(votes)
   return (
     <div>
@@ -50,6 +61,7 @@ const App = () => {
       <Votes value={votes[selected]}></Votes>
       <Button text="vote" handleClick={() => voteAnecdote(selected)}></Button>
       <Button text="next anecdote" handleClick={() => setCurrentAnecdote()}></Button>
+      <WinningAnecdote text={anecdotes[getWinningAnecdote()]}></WinningAnecdote>
     </div>
   )
 }
