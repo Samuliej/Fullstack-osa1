@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const Button = (props) => {
   return (
-    <button onClick={props.handleClick}>next anecdote</button>
+    <button onClick={props.handleClick}>{props.text}</button>
   )
 }
 
@@ -10,6 +10,12 @@ const Anecdote = (props) => (
     <p><strong><em>
       {props.text}
     </em></strong></p>
+)
+
+const Votes = (props) => (
+  <p>
+    has {props.value} votes
+  </p>
 )
 
 const App = () => {
@@ -22,18 +28,28 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when dianosing patients.'
   ]
+  
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState([0,0,0,0,0,0,0])
 
   const setCurrentAnecdote = () => {
     let random = Math.floor(Math.random() * anecdotes.length)
     setSelected(random)
   }
-  
 
+  const voteAnecdote = (index) => {
+    const newVotes = [...votes]
+    newVotes[index] += 1
+    setVotes(newVotes)
+  }
+
+  console.log(votes)
   return (
     <div>
       <Anecdote text={anecdotes[selected]}></Anecdote>
-      <Button handleClick={() => setCurrentAnecdote()}></Button>
+      <Votes value={votes[selected]}></Votes>
+      <Button text="vote" handleClick={() => voteAnecdote(selected)}></Button>
+      <Button text="next anecdote" handleClick={() => setCurrentAnecdote()}></Button>
     </div>
   )
 }
