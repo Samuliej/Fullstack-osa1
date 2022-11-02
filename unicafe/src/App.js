@@ -12,25 +12,15 @@ const Header = (props) => (
   </h1>
 )
 
-const Display = (props) => (
-  <div>
-    <p>{props.text}: {props.value}</p>
-  </div>
-)
-
-const GetAverage = (props) => {
-  return ( (props.val1 - props.val2) / props.val3)
-}
-
-const GetPositive = (props) => {
-  return (
-    (props.val1 * 100) / props.val2
-  )
-}
 
 const Statistics = (props) => {
+  if (props.value === 0) {
+    return (<div></div>)
+  }
   return (
-    <Display text={props.text} value={props.value}></Display>
+    <div>
+      <p>{props.text}: {props.value}</p>
+    </div>
   )
 }
 
@@ -46,6 +36,11 @@ const App = () => {
   const setNeutralValue = () => {setNeutral(neutral +1); setAll(allClicks +1)}
   const setBadValue = () => {setBad(bad +1); setAll(allClicks+1) }
 
+  // apufunktiot
+  const getAverage = () => allClicks !== 0 ? ((good - bad) / allClicks) : 0
+  const getPositive = () => allClicks !== 0 ? ((good * 100) / allClicks) : 0
+  
+
   return (
     <div>
         <Header text={"give feedback"}></Header>
@@ -53,12 +48,12 @@ const App = () => {
         <Button handleClick={() => setNeutralValue()} text="neutral"></Button>
         <Button handleClick={() => setBadValue()} text="bad"></Button>
         <Header text={"statistics"}></Header>
-        <Display text="good" value={good}></Display>
-        <Display text="neutral" value={neutral}></Display>
-        <Display text="bad" value={bad}></Display>
-        <Display text="all" value={allClicks}></Display>
-        <Statistics text="average" value={<GetAverage val1={good} val2={bad} val3={allClicks}></GetAverage>}></Statistics>
-        <Statistics text="positive" value={<GetPositive val1={good} val2={allClicks}></GetPositive>}></Statistics>
+        <Statistics text="good" value={good}></Statistics>
+        <Statistics text="neutral" value={neutral}></Statistics>
+        <Statistics text="bad" value={bad}></Statistics>
+        <Statistics text="all" value={allClicks}></Statistics>
+        <Statistics text="average" value={getAverage()}></Statistics>
+        <Statistics text="positive" value={getPositive()}></Statistics>
     </div>
   )
 }
