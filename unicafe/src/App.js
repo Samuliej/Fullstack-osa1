@@ -28,6 +28,13 @@ const GetPositive = (props) => {
   )
 }
 
+const Statistics = (props) => {
+  return (
+    <Display text={props.text} value={props.value}></Display>
+  )
+}
+
+
 
 const App = () => {
   const [good, setGood] = useState(0)
@@ -50,8 +57,8 @@ const App = () => {
         <Display text="neutral" value={neutral}></Display>
         <Display text="bad" value={bad}></Display>
         <Display text="all" value={allClicks}></Display>
-        <Display text="average" value={<GetAverage val1={good} val2={bad} val3={allClicks}></GetAverage>}></Display>
-        <Display text="positive" value={<GetPositive val1={good} val2={allClicks}></GetPositive>}></Display>
+        <Statistics text="average" value={<GetAverage val1={good} val2={bad} val3={allClicks}></GetAverage>}></Statistics>
+        <Statistics text="positive" value={<GetPositive val1={good} val2={allClicks}></GetPositive>}></Statistics>
     </div>
   )
 }
