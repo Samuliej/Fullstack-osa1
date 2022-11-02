@@ -18,15 +18,26 @@ const Display = (props) => (
   </div>
 )
 
+const GetAverage = (props) => {
+  return ( (props.val1 - props.val2) / props.val3)
+}
+
+const GetPositive = (props) => {
+  return (
+    (props.val1 * 100) / props.val2
+  )
+}
+
+
 const App = () => {
-  // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [allClicks, setAll] = useState(0)
 
-  const setGoodValue = () => setGood(good +1)
-  const setNeutralValue = () => setNeutral(neutral +1)
-  const setBadValue = () => setBad(bad +1)
+  const setGoodValue = () => {setGood(good +1); setAll(allClicks+1) }
+  const setNeutralValue = () => {setNeutral(neutral +1); setAll(allClicks +1)}
+  const setBadValue = () => {setBad(bad +1); setAll(allClicks+1) }
 
   return (
     <div>
@@ -38,6 +49,9 @@ const App = () => {
         <Display text="good" value={good}></Display>
         <Display text="neutral" value={neutral}></Display>
         <Display text="bad" value={bad}></Display>
+        <Display text="all" value={allClicks}></Display>
+        <Display text="average" value={<GetAverage val1={good} val2={bad} val3={allClicks}></GetAverage>}></Display>
+        <Display text="positive" value={<GetPositive val1={good} val2={allClicks}></GetPositive>}></Display>
     </div>
   )
 }
