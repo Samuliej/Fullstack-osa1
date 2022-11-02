@@ -13,12 +13,19 @@ const Header = (props) => (
 )
 
 const StatisticsLine = (props) => {
+  if (props.extra === null) {
+    return (
+      <tr>
+        <td>{props.text}</td>
+        <td>{props.value}</td>
+      </tr>
+    ) 
+  }
   return (
-    <div>
-      <p>
-        {props.text}: {props.value}
-      </p>
-    </div>
+    <tr>
+    <td>{props.text}</td>
+    <td>{props.value} {props.extra}</td>
+  </tr>
   )
 }
 
@@ -28,21 +35,26 @@ const Statistics = (props) => {
     return (<div><strong>No feedback given</strong></div>)
   }
   return (
-    <div>
-      <StatisticsLine text="good" value={props.good}></StatisticsLine>
-      <StatisticsLine text="neutral" value={props.neutral}></StatisticsLine>
-      <StatisticsLine text="bad" value={props.bad}></StatisticsLine>
-      <StatisticsLine text="average" value={getAverage(props.good, props.bad, props.allClicks)}></StatisticsLine>
-      <StatisticsLine text="positive" value={getPositive(props.good, props.allClicks)}></StatisticsLine>
-    </div>
+    <table>
+      <tbody>
+        <StatisticsLine text="good" value={props.good}></StatisticsLine>
+        <StatisticsLine text="neutral" value={props.neutral}></StatisticsLine>
+        <StatisticsLine text="bad" value={props.bad}></StatisticsLine>
+        <StatisticsLine text="average" value={getAverage(props.good, props.bad, props.allClicks)}></StatisticsLine>
+        <StatisticsLine text="positive" value={getPositive(props.good, props.allClicks)} extra="%"></StatisticsLine>
+      </tbody>
+    </table>
   )
 }
 
 // Vinkkiä onko järkevä suunnitella apufunktioita näin?
 // vai sijoittaa apufunktiot appiin ja sieltä heitellä suoraan ulkoisille 
 // komponenteille arvot?
-const getAverage = (val1, val2, valCombined) => valCombined !== 0 ? ((val1 - val2) / valCombined) : 0
-const getPositive = (val1, valCombined) => valCombined !== 0 ? ((val1 * 100) / valCombined) : 0
+const getAverage = (val1, val2, valCombined) => 
+  valCombined !== 0 ? Math.round(((val1 - val2) / valCombined) * 100) / 100 : 0
+
+const getPositive = (val1, valCombined) => 
+  valCombined !== 0 ? Math.round(((val1 * 100) / valCombined) * 100) / 100 : 0
 
 const App = () => {
   const [good, setGood] = useState(0)
